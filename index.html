@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP ScrollTrigger practice</title>
+
+    <!-- ? GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.1/gsap.min.js"
+      integrity="sha512-Mf/xUqfWvDIr+1B6zfnIDIiG7XHzyP/guXUWgV6PgaQoIFeXkJQR5XWh9fqAiCiRCpemabt3naV4jhDWVnuYDQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    >
+    </script>
+
+    <!-- ? GSAP Scrolltrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.1/ScrollTrigger.min.js"
+      integrity="sha512-YzMW3OzvgtVpIIPPpjnCy8wVTq5slHRrxnLH1oD5dkVjZf8+8DJYd+GYmmWXZNmroTqKXFFzFS3XZ/LBvaNgZg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    >
+    </script>
+
+    <style>
+      section {
+        display: flex;
+        flex-direction: column;
+        row-gap: 200px;
+      }
+
+      .box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100px;
+        height: 100px;
+        font-size: 24px;
+      }
+
+      .box.a {
+        background-color: #faf;
+      }
+      .box.b {
+        background-color: #ffa;
+      }
+      .box.c {
+        background-color: #aff;
+      }
+
+      .spacing {
+        height: 1000px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <section class="">
+      <h1>
+        GSAP ScrollTrigger practice
+      </h1>
+
+      <div class="box a">
+        a
+      </div>
+
+      <div class="box b">
+        b
+      </div>
+
+      <div class="box c">
+        c
+      </div>
+
+      <div class="spacing">
+      </div>
+    </section>
+
+    <script defer>
+      (() => {
+        /**
+         * GSAP ScrollTrigger tutorial:
+         * https://www.youtube.com/watch?v=X7IBa7vZjmo&t=144s
+        */
+        gsap.registerPlugin(ScrollTrigger);
+  
+        const elementToAnimate = '.c';
+        const triggerElement = '.b';
+
+        const elementStartPart = 'top';
+        const scrollerStartPosition = '20%';
+
+        const elementEndPart = 'bottom';
+        const scrollerEndPosition = 'center';
+
+        gsap.to(elementToAnimate, {
+          scrollTrigger: {
+            /**
+             * Value type: string
+             * elementToAnimate should start its animation when this triggerElement passes the start or end scroller positions.
+            */
+            trigger: triggerElement,
+            /**
+             * Value type: string
+             * Move scroller-start and start trigger (of the element).
+             * Options: top, center, bottom
+             * Extra options: You can also use px and % values. 0% or 0px meaning top of screen. 100% meaning bottom of screen.
+             *    100px meaning 100 pixels down from the top of the screen.
+             * Position 1: Move start trigger
+             * Position 2: Move scroller-start
+            */
+            start: [elementStartPart, scrollerStartPosition].join(' '),
+            /**
+             * Value type: string or function
+             * Same thing here, but for the scroller-end and end trigger.
+             * Here you can also use pixel values that are relative to the start point by using the += or -=.
+             * Functions are also possible for dynamic values.
+             * Examples:
+             *  1: +=200
+             *  2: () => '+=' + someVariable
+            */
+            end: [elementEndPart, scrollerEndPosition].join(' '),
+            /** Optional. Assign the end trigger on a different element */
+            endTrigger: '.c',
+            /**
+             * Value type: boolean or number
+             * Animation will be proportionate to your scroll speed and position.
+             * You can use a number value to smoothen out the animation
+            */
+            scrub: 3,
+            /**
+             * Value type: boolean or string
+             * Pins the y-position of the trigger element in place relative to the screen.
+             * Value can also be a query selector to apply this pin effect to a different element.
+            */
+            pin: '.c',
+            pinSpacing: false,
+            /**
+             * Value type: boolean
+             * Use during development only.
+             * Show markers on the page to see the start and end positions of trigger element en scroller.
+            */
+            markers: true,
+            /**
+             * Value type: string
+             * Options: play, pause, resume, reverse, restart, reset, complete, none
+             * Position 1 and 2 refers to scroll-down events.
+             * Position 3 and 4 refers to scroll-up events.
+             *
+             * Position 1: When start trigger enters screen through scroller-start
+             * Position 2: When end trigger exits screen through scroller-end
+             * Position 3: When end trigger enters screen through scroller-end
+             * Position 4: When start trigger exits screen through scroller-start
+            */
+            toggleActions: 'restart pause reverse restart',
+            // snap: 1 / (sections.length - 1),
+            // onEnter: () => console.log('enter'),
+            // onLeave: () => console.log('leave'),
+            // onEnterBack: () => console.log('enter back'),
+            // onLeaveBack: () => console.log('leave back'),
+            // onUpdate: self => console.log('update', self.progress.toFixed(3)),
+            // onToggle: self => console.log('toggled', self.progress.toFixed(3)),
+            // toggleClass: 'active',
+            // id: 'my-id',
+            // scroller: '#container',
+            // horizontal: true,
+          },
+          x: 400,
+          rotation: 360,
+          duration: 3,
+        });
+      })();
+    </script>
+  </body>
+</html>
